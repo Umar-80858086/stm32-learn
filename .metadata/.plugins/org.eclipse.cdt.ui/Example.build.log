@@ -1,0 +1,9 @@
+09:20:07 **** Incremental Build of configuration Debug for project Example ****
+Info: Internal Builder is used for build
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -o main.o "..\\main.c" 
+..\main.c:10:1: error: return type defaults to 'int' [-Wimplicit-int]
+   10 | main()
+      | ^~~~
+
+09:20:07 Build Failed. 1 errors, 0 warnings. (took 194ms)
+

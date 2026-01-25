@@ -1,0 +1,14 @@
+02:45:57 **** Incremental Build of configuration Debug for project UART_TaskSchedular ****
+make -j16 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F411RETx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "UART_TaskSchedular.elf" @"objects.list"   -mcpu=cortex-m4 -T"D:\STM32Cube IDE WorkSpace\UART_TaskSchedular\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="UART_TaskSchedular.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: UART_TaskSchedular.elf
+ 
+arm-none-eabi-size  UART_TaskSchedular.elf 
+arm-none-eabi-objdump -h -S UART_TaskSchedular.elf  > "UART_TaskSchedular.list"
+   text	   data	    bss	    dec	    hex	filename
+   4492	    128	   1968	   6588	   19bc	UART_TaskSchedular.elf
+Finished building: default.size.stdout
+ 
+Finished building: UART_TaskSchedular.list
+ 

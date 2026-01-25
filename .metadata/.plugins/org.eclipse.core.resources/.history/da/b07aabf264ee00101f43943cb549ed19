@@ -1,0 +1,156 @@
+
+#include <stdint.h>
+#define MAX_TASKS   3
+
+#define SIZE_TASK_STACK          1024U
+#define SIZE_SCHED_STACK         1024U
+
+#define SRAM_START               0x20000000U
+#define SIZE_SRAM                ( (128) * (1024))
+#define SRAM_END                 ((SRAM_START) + (SIZE_SRAM) )
+
+#define T1_STACK_START           SRAM_END
+#define T2_STACK_START           ( (SRAM_END) - (1 * SIZE_TASK_STACK) )
+#define T3_STACK_START           ( (SRAM_END) - (2 * SIZE_TASK_STACK) )
+#define IDLE_STACK_START         ( (SRAM_END) - (3 * SIZE_TASK_STACK) )
+#define SCHED_STACK_START        ( (SRAM_END) - (4 * SIZE_TASK_STACK) )
+
+#define TICK_HZ 1000U
+
+#define HSI_CLOCK         		16000000U
+#define SYSTICK_TIM_CLK   		HSI_CLOCK
+
+#define TASK_READY_STATE  0x00
+#define TASK_BLOCKED_STATE  0XFF
+
+
+void Task1_Handler(void); //This is task1
+void Task2_Handler(void); //this is task2
+void Task3_Handler(void); //this is task3
+
+
+void init_systick_timer(uint32_t tick_hz);
+__attribute__((naked)) void init_scheduler_stack(uint32_t sched_top_of_stack);
+void init_tasks_stack(void);
+void enable_processor_faults(void);
+__attribute__((naked)) void switch_sp_to_psp(void);
+uint32_t get_psp_value(void);
+
+void task_delay(uint32_t tick_count);
+uint8_t current_task = 1; //task1 is running
+
+/* This is a task control block (TCB)carries private information of each task */
+typedef struct
+{
+	uint32_t psp_value;
+	uint32_t block_count;
+	uint8_t  current_state;
+	void (*task_handler)(void);
+}TCB_t;
+
+/* Each task has its own TCB */
+TCB_t user_tasks[MAX_TASKS];
+uint32_t *pAHB1ENR     =  (uint32_t*)0x40023830;// enable ahb1
+uint32_t *pAPB1ENR     =  (uint32_t*)0x40023840;// enable apb1
+uint32_t *pGPIOA_MODER =  (uint32_t*)0x40020000;// output mode
+uint32_t *pGPIOA_AFRL  =  (uint32_t*)0x40020020;// alternate function
+uint32_t *USART2_SR    =  (uint32_t*)0x40004400;// uart status reg
+uint32_t *USART2_BRR   =  (uint32_t*)0x40004408;// baud rate reg
+uint32_t *USART2_DR    =  (uint32_t*)0x40004404;// data reg
+uint32_t *USART2_CR1   =  (uint32_t*)0x4000440c;// control reg
+
+
+
+
+void uSART_init(void){
+	// enable the clock for GPIOa
+	*pAHB1ENR |= (1U << 0);
+	// enable th e clock for UASART 2
+	*pAPB1ENR |= (1U<<17);
+	// configure GPIO a to ALT function
+	*pGPIOA_MODER |= 0x20;
+	// configure PA2 TO USART2
+	*pGPIOA_AFRL |= 0x700;
+	/*/CONFIGURE PA2 TO USART2
+		*pGPIOAFRL |=(1U<<8);
+		*pGPIOAFRL |=(1U<<9);
+		*pGPIOAFRL |=(1U<<10);
+		*pGPIOAFRL &=~(1U<<11);*/
+	// configure the BRR to 9600
+	*USART2_BRR = 0x0683;
+	// configure UART
+	*USART2_CR1 |=0x2008;  // for enabling TX and UART
+	//*USART2_CR1 |=0x2000;
+
+}
+
+void idle_task(void)
+{
+	while(1);
+}
+
+
+void Task1_Handler(void)
+{
+	while(1)
+	{
+
+		printf(" Task1 \n");
+
+
+
+	}
+
+}
+
+void Task2_Handler(void)
+{
+	while(1)
+	{
+		printf(" Task2 \n");
+
+
+	}
+
+}
+
+void Task3_Handler(void)
+{
+	while(1)
+	{
+		printf(" Task3 \n");
+
+
+	}
+
+}
+__attribute__((naked)) void init_scheduler_stack(uint32_t sched_top_of_stack)
+{
+     __asm volatile("MSR MSP,%0": :  "r" (sched_top_of_stack)  :   );
+     __asm volatile("BX LR");
+
+}
+
+void init_systick_timer(uint32_t tick_hz)
+{
+	uint32_t *pSRVR = (uint32_t*)0xE000E014;
+	uint32_t *pSCSR = (uint32_t*)0xE000E010;
+
+    /* calculation of reload value */
+    uint32_t count_value = (SYSTICK_TIM_CLK/tick_hz)-1;
+
+    //Clear the value of SVR
+    *pSRVR &= ~(0x00FFFFFFFF);
+
+    //load the value in to SVR
+    *pSRVR |= count_value;
+
+    //do some settings
+    *pSCSR |= ( 1 << 1); //Enables SysTick exception request:
+    *pSCSR |= ( 1 << 2);  //Indicates the clock source, processor clock source
+
+    //enable the systick
+    *pSCSR |= ( 1 << 0); //enables the counter
+
+}
+

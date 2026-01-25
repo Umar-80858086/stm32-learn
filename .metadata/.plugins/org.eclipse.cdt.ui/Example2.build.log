@@ -1,0 +1,16 @@
+10:25:42 **** Build of configuration Debug for project Example2 ****
+make -j16 all 
+arm-none-eabi-gcc -o "Example2.elf" @"objects.list"   -mcpu=cortex-m4 -T"D:\STM32Cube IDE WorkSpace\Example2\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Example2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Example2.elf
+ 
+arm-none-eabi-size  Example2.elf 
+arm-none-eabi-objdump -h -S Example2.elf  > "Example2.list"
+   text	   data	    bss	    dec	    hex	filename
+   4924	     92	   1900	   6916	   1b04	Example2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Example2.list
+ 
+
+10:25:45 Build Finished. 0 errors, 0 warnings. (took 3s.0ms)
+

@@ -1,0 +1,17 @@
+13:27:12 **** Incremental Build of configuration Debug for project example_1 ****
+make -j16 all 
+arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DNUCLEO_F411RE -DSTM32 -DSTM32F4 -DSTM32F411RETx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/syscalls.o"
+arm-none-eabi-gcc -o "example_1.elf" @"objects.list"   -mcpu=cortex-m4 -T"D:\STM32Cube IDE WorkSpace\example_1\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="example_1.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: example_1.elf
+ 
+arm-none-eabi-size  example_1.elf 
+arm-none-eabi-objdump -h -S example_1.elf  > "example_1.list"
+   text	   data	    bss	    dec	    hex	filename
+   4900	     92	   1900	   6892	   1aec	example_1.elf
+Finished building: default.size.stdout
+ 
+Finished building: example_1.list
+ 
+
+13:27:14 Build Finished. 0 errors, 0 warnings. (took 1s.635ms)
+
