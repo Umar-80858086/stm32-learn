@@ -13,7 +13,7 @@ uint32_t *pADC_DR =(uint32_t*)0x4001204c; // declare pounter to ADC data registe
 uint16_t analogValue; //define 16 bt variable to store ADC conversion reault since STM32 ADC resolution uplto 12 bit.
 
 void ADC_Init(); // function prototype for initializing ADC hardware and related gpio configuration 
-void delay(); s//software delay
+void delay(); //software delay
 void ADC_Init() // delare function delay
 {
  *pAHB1ENR |=1 ;//enable the clock access for GPIOA
