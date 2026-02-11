@@ -1,0 +1,11 @@
+../Src/main.c:94:5:main	8	static
+../Src/main.c:123:6:SystemClock_Config	4	static
+../Src/main.c:140:6:GPIO_Init	4	static
+../Src/main.c:160:6:ADC_Init	16	static
+../Src/main.c:178:10:ADC_Read	4	static
+../Src/main.c:190:6:TIM2_Control_Init	4	static
+../Src/main.c:208:6:TIM1_PWM_Init	4	static
+../Src/main.c:233:6:USART2_Init	4	static
+../Src/main.c:243:6:USART2_SendChar	16	static
+../Src/main.c:252:6:USART2_SendString	16	static
+../Src/main.c:259:6:TIM2_IRQHandler	32	static
