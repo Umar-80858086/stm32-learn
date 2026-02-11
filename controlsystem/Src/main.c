@@ -33,7 +33,7 @@
 
 // GPIOA registers.
 #define GPIOA_MODER (*(volatile uint32_t *)(GPIOA_BASE + 0x00))  // Mode register.
-#define GPIOA_AFRL  (*(volatile uint32_t *)(GPIOA_BASE + 0x20))  // Alternate function low.
+#include <stdint.h>
 
 // ADC1 registers.
 #define ADC1_SR     (*(volatile uint32_t *)(ADC1_BASE + 0x00))  // Status.
@@ -113,9 +113,7 @@ int main(void) {
 
     // Main loop (outside ISR) - can add UART tuning here.
     while (1) {
-        // Example: Print status every second or so (pseudo-delay).
-        // For real, use another timer or counter.
-        // Here, just idle - tuning can be added via UART RX if you expand.
+
     }
 }
 
@@ -293,10 +291,4 @@ void TIM2_IRQHandler(void) {
     // Optional: Print via UART? But avoid in ISR - use flag or buffer.
 }
 
-// Notes:
-// - To tune params: In main loop, add UART RX to change Kp/Ti/Td/setpoint.
-// - Anti-windup: Add if (u saturated) don't integrate.
-// - Scaling: ADC is 0-4095 (3.3V), PWM duty 0-ARR (100%).
-// - For real plant, adjust gains - this is starting point.
-// - Interrupt priority? Default is fine.
-// - Add startup_stm32f411xx.s and linker for full build.
+
